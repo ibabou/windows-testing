@@ -49,13 +49,6 @@ if [[ -v PREPULL_YAML && ! -z "$PREPULL_YAML" ]]; then
   kubectl delete -f ${SCRIPT_ROOT}/${PREPULL_FILE}
   # Wait a few more minutes for the pod to be cleaned up.
   timeout 3m kubectl wait --for=delete pod -l prepull-test-images=e2e --timeout -1s
-
-  # Download and set the list of test image repositories to use.
-  # Not required for runs utilizing the new -prepull-images flag.
-  curl \
-    ${KUBE_TEST_REPO_LIST_DOWNLOAD_LOCATION:-https://raw.githubusercontent.com/kubernetes-sigs/windows-testing/master/images/image-repo-list} \
-    -o ${WORKSPACE}/repo-list.yaml
-  export KUBE_TEST_REPO_LIST=${WORKSPACE}/repo-list.yaml
 fi
 
 # When using customized test command (which we are now), report-dir is not set
